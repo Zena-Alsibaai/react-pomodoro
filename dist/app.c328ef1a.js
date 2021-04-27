@@ -29566,7 +29566,101 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"components/hello.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)?\/[^/]+(?:\?.*)?$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/hello.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+require("../style.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Hello = function Hello() {
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("h1", null, "POMODORO"), /*#__PURE__*/_react.default.createElement("small", null, "Be productive the right way."), /*#__PURE__*/_react.default.createElement(SetPomodoro, null));
+};
+
+var _default = Hello;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","../style.css":"style.css"}],"components/Button.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29578,13 +29672,121 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Hello = function Hello() {
-  return /*#__PURE__*/_react.default.createElement("p", null, "Hello, World !");
+var Button = function Button(_ref) {
+  var title = _ref.title,
+      activeClass = _ref.activeClass,
+      _callback = _ref._callback;
+  return /*#__PURE__*/_react.default.createElement("button", {
+    className: activeClass,
+    onClick: _callback
+  }, title);
 };
 
-var _default = Hello;
+var _default = Button;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"app.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"components/SetPomodoro.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _Button = _interopRequireDefault(require("./Button"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var SetPomodoro = function SetPomodoro() {
+  var _useState = useState({
+    work: 0.3,
+    short: 0.2,
+    long: 1,
+    active: "work"
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      newTimer = _useState2[0],
+      setNawTimer = _useState2[1];
+
+  var handelChange = function handelChange(input) {
+    var _input$target = input.target,
+        name = _input$target.name,
+        value = _input$target.value;
+
+    switch (name) {
+      case "work":
+        setNewTimer(_objectSpread(_objectSpread({}, newTimer), {}, {
+          work: parseInt(value)
+        }));
+        break;
+
+      case "shortBreak":
+        setNewTimer(_objectSpread(_objectSpread({}, newTimer), {}, {
+          short: parseInt(value)
+        }));
+        break;
+
+      case "longBreak":
+        setNewTimer(_objectSpread(_objectSpread({}, newTimer), {}, {
+          long: parseInt(value)
+        }));
+
+      default:
+        break;
+    }
+
+    console.log(newTimer);
+  };
+
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "form-conatiner"
+  }, /*#__PURE__*/_react.default.createElement("form", {
+    noValidate: true
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "input-wrapper"
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    className: "input",
+    name: "work",
+    onChange: handelChange,
+    value: newTimer.work
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    className: "input",
+    name: "shortBreak",
+    onChange: handelChange,
+    value: newTimer.short
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    className: "input",
+    name: "longBreak",
+    onChange: handelChange,
+    value: newTimer.long
+  })), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    title: "Set Timer",
+    _callback: handelSubmit
+  })));
+};
+
+var _default = SetPomodoro;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./Button":"components/Button.js"}],"app.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -29593,10 +29795,14 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 
 var _hello = _interopRequireDefault(require("./components/hello"));
 
+var _Button = _interopRequireDefault(require("./components/Button"));
+
+var _SetPomodoro = _interopRequireDefault(require("./components/SetPomodoro"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_hello.default, null), document.querySelector("#app"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/hello":"components/hello.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/hello":"components/hello.js","./components/Button":"components/Button.js","./components/SetPomodoro":"components/SetPomodoro.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -29624,7 +29830,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58313" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50105" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

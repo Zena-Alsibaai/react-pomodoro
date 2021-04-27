@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Segoe UI", "Roboto";
+}
+
+.container {
+    color: #c9ccea;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: rgb(39, 42, 85);
+    background: radial-gradient(circle, #1e2140 0%, #151932 65%);
+}
+.container h1 {
+    font-size: 2.6rem;
+    margin-bottom: 0.2rem;
+}
+
+
+/*# sourceMappingURL=/app.c328ef1a.css.map */
