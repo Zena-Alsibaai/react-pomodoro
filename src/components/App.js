@@ -21,6 +21,7 @@ class App extends React.Component {
         this.onDecreaseSessionLength = this.onDecreaseSessionLength.bind(this);
         this.onToggleInterval = this.onToggleInterval.bind(this);
         this.onUpdateTimerMinute = this.onUpdateTimerMinute.bind(this);
+        // this.OnPlayStopTimer = this.OnPlayStopTimer.bind(this);
         this.onResetTimer = this.onResetTimer.bind(this);
     }
 
@@ -80,6 +81,11 @@ class App extends React.Component {
             timerMinute: this.state.sessionLength,
         });
     }
+    // OnPlayStopTimer(isPlay) {
+    //     this.setState({
+    //         isPaly: isPlay,
+    //     });
+    // }
 
     render() {
         return (
@@ -88,6 +94,7 @@ class App extends React.Component {
                 <p>Be productive the right way.</p>
                 <section className="interval-length-container">
                     <BreakInterval
+                        isPlay={this.state.isPlay}
                         breakInterval={this.state.breakLength}
                         increaseBreak={this.onIncreaseBreakLength}
                         decreaseBreak={this.onDecreaseBreakLength}
@@ -105,6 +112,7 @@ class App extends React.Component {
                     updateTimerMinute={this.onUpdateTimerMinute}
                     toggleInterval={this.onToggleInterval}
                     resetTimer={this.onResetTimer}
+                    // onPlayStopTimer={this.onPlayStopTimer}
                 />
             </main>
         );

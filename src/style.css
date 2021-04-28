@@ -78,6 +78,9 @@ button {
     width: 80px;
     border-radius: 3rem;
 }
+button:disabled {
+    cursor: not-allowed;
+}
 .interval-length {
     font-size: 2rem;
     margin: 0 10px;

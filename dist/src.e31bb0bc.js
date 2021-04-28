@@ -29788,7 +29788,8 @@ var Timer = /*#__PURE__*/function (_React$Component) {
   _createClass(Timer, [{
     key: "playTimer",
     value: function playTimer() {
-      var intervalId = setInterval(this.decreaseTimer, 1000);
+      var intervalId = setInterval(this.decreaseTimer, 1000); // this.props.onPlayStopTimer(true);
+
       this.setState({
         intervalId: intervalId
       });
@@ -29810,12 +29811,13 @@ var Timer = /*#__PURE__*/function (_React$Component) {
               });
               this.props.toggleInterval(this.state.isSession);
             }
+          } else {
+            this.props.updateTimerMinute();
+            this.setState({
+              timerSecond: 59
+            });
           }
 
-          this.props.updateTimerMinute();
-          this.setState({
-            timerSecond: 59
-          });
           break;
 
         default:
@@ -29829,15 +29831,17 @@ var Timer = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "stopTimer",
     value: function stopTimer() {
-      clearInterval(this.state.intervalId);
+      clearInterval(this.state.intervalId); // this.props.OnPlayStopTimer(false);
     }
   }, {
     key: "resetTimer",
     value: function resetTimer() {
       this.stopTimer();
-      this.props.resetTimer;
+      this.props.resetTimer(); // this.props.OnPlayStopTimer(false);
+
       this.setState({
-        timerSecond: 0
+        timerSecond: 0,
+        isSession: true
       });
     }
   }, {
@@ -29932,7 +29936,8 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.onIncreaseSessionLength = _this.onIncreaseSessionLength.bind(_assertThisInitialized(_this));
     _this.onDecreaseSessionLength = _this.onDecreaseSessionLength.bind(_assertThisInitialized(_this));
     _this.onToggleInterval = _this.onToggleInterval.bind(_assertThisInitialized(_this));
-    _this.onUpdateTimerMinute = _this.onUpdateTimerMinute.bind(_assertThisInitialized(_this));
+    _this.onUpdateTimerMinute = _this.onUpdateTimerMinute.bind(_assertThisInitialized(_this)); // this.OnPlayStopTimer = this.OnPlayStopTimer.bind(this);
+
     _this.onResetTimer = _this.onResetTimer.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -30003,7 +30008,12 @@ var App = /*#__PURE__*/function (_React$Component) {
       this.setState({
         timerMinute: this.state.sessionLength
       });
-    }
+    } // OnPlayStopTimer(isPlay) {
+    //     this.setState({
+    //         isPaly: isPlay,
+    //     });
+    // }
+
   }, {
     key: "render",
     value: function render() {
@@ -30012,6 +30022,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/_react.default.createElement("h1", null, "POMODORO"), /*#__PURE__*/_react.default.createElement("p", null, "Be productive the right way."), /*#__PURE__*/_react.default.createElement("section", {
         className: "interval-length-container"
       }, /*#__PURE__*/_react.default.createElement(_BreakInterval.default, {
+        isPlay: this.state.isPlay,
         breakInterval: this.state.breakLength,
         increaseBreak: this.onIncreaseBreakLength,
         decreaseBreak: this.onDecreaseBreakLength
@@ -30025,7 +30036,8 @@ var App = /*#__PURE__*/function (_React$Component) {
         breakTimer: this.state.breakLength,
         updateTimerMinute: this.onUpdateTimerMinute,
         toggleInterval: this.onToggleInterval,
-        resetTimer: this.onResetTimer
+        resetTimer: this.onResetTimer // onPlayStopTimer={this.onPlayStopTimer}
+
       }));
     }
   }]);
@@ -30079,7 +30091,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61088" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53587" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
