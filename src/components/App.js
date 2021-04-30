@@ -1,9 +1,11 @@
 import React from "react";
+import Modal from "react-modal";
 import "../style.css";
 import BreakInterval from "./BreakInterval";
 import SessionLength from "./SessionLength";
 import Timer from "./Timer";
 
+Modal.setAppElement("#app");
 class App extends React.Component {
     constructor() {
         super();
@@ -13,6 +15,7 @@ class App extends React.Component {
             sessionLength: 25,
             timerMinute: 25,
             isPlay: false,
+            // showModal: false,
         };
 
         this.onIncreaseBreakLength = this.onIncreaseBreakLength.bind(this);
@@ -23,7 +26,15 @@ class App extends React.Component {
         this.onUpdateTimerMinute = this.onUpdateTimerMinute.bind(this);
         // this.OnPlayStopTimer = this.OnPlayStopTimer.bind(this);
         this.onResetTimer = this.onResetTimer.bind(this);
+        // this.handleOpenModal = this.handleOpenModal.bind(this);
+        // this.handleCloseModal = this.handleCloseModal.bind(this);
     }
+    // handleOpenModal() {
+    //     this.setState({showModal: true});
+    // }
+    // handleCloseModal() {
+    //     this.setState({showModal: false});
+    // }
 
     onIncreaseBreakLength() {
         this.setState((prevState) => {
@@ -114,6 +125,19 @@ class App extends React.Component {
                     resetTimer={this.onResetTimer}
                     // onPlayStopTimer={this.onPlayStopTimer}
                 />
+
+                {/* <div>
+                    <button onClick={this.handleOpenModal}>
+                        Trigger Modal
+                    </button>
+                    <ReactModal
+                        isOpen={this.state.showModal}
+                        contentLabel="Minimal Modal Example">
+                        <button onClick={this.handleCloseModal}>
+                            Close Modal
+                        </button>
+                    </ReactModal>
+                </div> */}
             </main>
         );
     }
